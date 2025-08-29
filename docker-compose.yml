@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  root-ca:
+    build: ./root-ca
+    container_name: root-ca
+    volumes:
+      - ./root-ca/data:/etc/pki/data
+    stdin_open: true # Keeps STDIN open
+    tty: true  
+    command: ["bash"]
+
+  intermediate-ca:
+    build: ./intermediate-ca
+    container_name: intermediate-ca
+    volumes:
+      - ./intermediate-ca/data:/etc/pki
+    ports:
+      - "8080:8080"   # future OCSP/CRL publication
+    command: ["bash"]
